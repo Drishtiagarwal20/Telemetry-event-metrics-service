@@ -1,0 +1,177 @@
+basePath: /
+definitions:
+  model.DellOEM:
+    properties:
+      '@odata.type':
+        type: string
+      ContextID:
+        type: string
+      FQDD:
+        type: string
+      Label:
+        type: string
+      MetricReportDefinitionDigest:
+        type: string
+      ServiceTag:
+        type: string
+      Source:
+        type: string
+    type: object
+  model.Event:
+    properties:
+      '@odata.context':
+        type: string
+      '@odata.type':
+        type: string
+      Events:
+        items:
+          $ref: '#/definitions/model.EventEntry'
+        type: array
+      Events@odata.count:
+        type: integer
+      Id:
+        type: string
+      Name:
+        type: string
+    type: object
+  model.EventEntry:
+    properties:
+      EventId:
+        type: string
+      EventTimestamp:
+        type: string
+      EventType:
+        type: string
+      MemberId:
+        type: string
+      MessageId:
+        type: string
+      OriginOfCondition:
+        $ref: '#/definitions/model.OriginCondition'
+    type: object
+  model.Events:
+    properties:
+      event:
+        items:
+          $ref: '#/definitions/model.Event'
+        type: array
+      id:
+        type: string
+    type: object
+  model.Metric:
+    properties:
+      id:
+        type: string
+      metricReport:
+        items:
+          $ref: '#/definitions/model.MetricReport'
+        type: array
+    type: object
+  model.MetricReport:
+    properties:
+      '@odata.context':
+        type: string
+      '@odata.id':
+        type: string
+      '@odata.type':
+        type: string
+      Id:
+        type: string
+      MetricReportDefinition:
+        $ref: '#/definitions/model.MetricReportDefinition'
+      MetricValues:
+        items:
+          $ref: '#/definitions/model.MetricValue'
+        type: array
+      MetricValues@odata.count:
+        type: integer
+      Name:
+        type: string
+      Oem:
+        $ref: '#/definitions/model.OEM'
+      ReportSequence:
+        type: string
+      Timestamp:
+        type: string
+    type: object
+  model.MetricReportDefinition:
+    properties:
+      '@odata.id':
+        type: string
+    type: object
+  model.MetricValue:
+    properties:
+      MetricId:
+        type: string
+      MetricValue:
+        type: string
+      Oem:
+        $ref: '#/definitions/model.OEM'
+      Timestamp:
+        type: string
+    type: object
+  model.OEM:
+    properties:
+      Dell:
+        $ref: '#/definitions/model.DellOEM'
+    type: object
+  model.OriginCondition:
+    properties:
+      '@odata.id':
+        type: string
+    type: object
+host: localhost:8084
+info:
+  contact: {}
+  description: This is a sample telemetry service to generate the events and metric
+    reports.
+  title: Telemetry Service
+  version: "1.0"
+paths:
+  /v1/events:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves the events data for the subscribed client
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Events'
+        "400":
+          description: Bad Request Error
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get the Event data
+      tags:
+      - Event
+  /v1/metrics:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves the report for the subscribed client
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Metric'
+        "400":
+          description: Bad Request Error
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get the metric report
+      tags:
+      - Metrics
+swagger: "2.0"

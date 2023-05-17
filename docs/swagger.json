@@ -1,0 +1,270 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample telemetry service to generate the events and metric reports.",
+        "title": "Telemetry Service",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8084",
+    "basePath": "/",
+    "paths": {
+        "/v1/events": {
+            "get": {
+                "description": "Retrieves the events data for the subscribed client",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Get the Event data",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Events"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/metrics": {
+            "get": {
+                "description": "Retrieves the report for the subscribed client",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Metrics"
+                ],
+                "summary": "Get the metric report",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Metric"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.DellOEM": {
+            "type": "object",
+            "properties": {
+                "@odata.type": {
+                    "type": "string"
+                },
+                "ContextID": {
+                    "type": "string"
+                },
+                "FQDD": {
+                    "type": "string"
+                },
+                "Label": {
+                    "type": "string"
+                },
+                "MetricReportDefinitionDigest": {
+                    "type": "string"
+                },
+                "ServiceTag": {
+                    "type": "string"
+                },
+                "Source": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Event": {
+            "type": "object",
+            "properties": {
+                "@odata.context": {
+                    "type": "string"
+                },
+                "@odata.type": {
+                    "type": "string"
+                },
+                "Events": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.EventEntry"
+                    }
+                },
+                "Events@odata.count": {
+                    "type": "integer"
+                },
+                "Id": {
+                    "type": "string"
+                },
+                "Name": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.EventEntry": {
+            "type": "object",
+            "properties": {
+                "EventId": {
+                    "type": "string"
+                },
+                "EventTimestamp": {
+                    "type": "string"
+                },
+                "EventType": {
+                    "type": "string"
+                },
+                "MemberId": {
+                    "type": "string"
+                },
+                "MessageId": {
+                    "type": "string"
+                },
+                "OriginOfCondition": {
+                    "$ref": "#/definitions/model.OriginCondition"
+                }
+            }
+        },
+        "model.Events": {
+            "type": "object",
+            "properties": {
+                "event": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Event"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Metric": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "metricReport": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.MetricReport"
+                    }
+                }
+            }
+        },
+        "model.MetricReport": {
+            "type": "object",
+            "properties": {
+                "@odata.context": {
+                    "type": "string"
+                },
+                "@odata.id": {
+                    "type": "string"
+                },
+                "@odata.type": {
+                    "type": "string"
+                },
+                "Id": {
+                    "type": "string"
+                },
+                "MetricReportDefinition": {
+                    "$ref": "#/definitions/model.MetricReportDefinition"
+                },
+                "MetricValues": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.MetricValue"
+                    }
+                },
+                "MetricValues@odata.count": {
+                    "type": "integer"
+                },
+                "Name": {
+                    "type": "string"
+                },
+                "Oem": {
+                    "$ref": "#/definitions/model.OEM"
+                },
+                "ReportSequence": {
+                    "type": "string"
+                },
+                "Timestamp": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.MetricReportDefinition": {
+            "type": "object",
+            "properties": {
+                "@odata.id": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.MetricValue": {
+            "type": "object",
+            "properties": {
+                "MetricId": {
+                    "type": "string"
+                },
+                "MetricValue": {
+                    "type": "string"
+                },
+                "Oem": {
+                    "$ref": "#/definitions/model.OEM"
+                },
+                "Timestamp": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.OEM": {
+            "type": "object",
+            "properties": {
+                "Dell": {
+                    "$ref": "#/definitions/model.DellOEM"
+                }
+            }
+        },
+        "model.OriginCondition": {
+            "type": "object",
+            "properties": {
+                "@odata.id": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
